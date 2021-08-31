@@ -1,0 +1,38 @@
+Sub DeleteRows_ByCondition()
+'Apply a filter to a Range and delete visible rows
+
+Dim WB As Workbook
+Set WB = ActiveWorkbook
+Dim ws As Worksheet
+Set ws = WB.ActiveSheet
+
+    'Select Excel Worksheet by name
+    Sheets("WorksheetA").Select
+    Range("A1").Select
+
+'Set reference top the sheet in the workbook.
+    Set ws = Sheets("WorksheetA")
+    '0. Auto_Filter Macro
+        Range(Selection, Selection.End(xlToRight)).Select
+        Selection.AutoFilter
+    '1. Apply Filter to column 45 with cell value = "Y"; but you can change this to any criteria
+    ws.Range("A1:AZ6000").AutoFilter Field:=45, Criteria1:="Y"
+    
+    '2. Delete Rows
+    Application.DisplayAlerts = False
+    ws.Range("A2:AZ6000").SpecialCells(xlCellTypeVisible).Delete
+    Application.DisplayAlerts = True
+
+    '3. Clear Filter
+    On Error Resume Next
+    ws.ShowAllData
+On Error GoTo 0
+
+End Sub
+
+
+
+
+
+
+
