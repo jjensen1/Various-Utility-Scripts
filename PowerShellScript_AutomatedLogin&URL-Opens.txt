@@ -1,0 +1,39 @@
+﻿$username = "YourUserName"
+$password = "YourPassword"
+add-type -AssemblyName System.Windows.Forms 
+$ie = New-Object -com InternetExplorer.Application
+$ie.visible=$True
+$ie.navigate("https://www.URL.com")
+while($ie.ReadyState -ne 4) {start-sleep -Seconds 5}
+$ie.document.getElementById("username").value= "$username"
+$ie.document.getElementById("password").value = "$password"
+$ie.document.getElementById("submit_password").submit()
+--note that the above 'submit_password' field may be different for your URL and you will have to find via looking at the html
+start-sleep 2
+-- The following URLs were navigated to in my case in order to open links that auto download csv files.
+$ie.navigate("URL2.com")
+start-sleep 2
+$ie.navigate("URL3.com")
+
+#Wait for Download Dialog box to pop up		
+
+start-sleep 3
+
+	
+        
+--key stroke commands to navigate to the download button
+[System.Windows.Forms.SendKeys]::SendWait('{TAB}')
+[System.Windows.Forms.SendKeys]::SendWait('{TAB}')
+[System.Windows.Forms.SendKeys]::SendWait('{TAB}')
+[System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+
+#send keys only working when i click on IE
+#close internet explorer
+
+[System.Windows.Forms.SendKeys]::SendWait('{TAB}')
+[System.Windows.Forms.SendKeys]::SendWait('{TAB}')
+[System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+start-sleep 2
+
+$ie.Quit()
+
